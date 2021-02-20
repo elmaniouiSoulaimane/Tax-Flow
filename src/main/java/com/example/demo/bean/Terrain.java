@@ -1,19 +1,20 @@
 package com.example.demo.bean;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Terrain {
-    private long id;
+    @Id @GeneratedValue
+    private Long id;
     private String reference;
     private String adresse;
-    private float surface;
+    private Float surface;
     private String categorie;
 
 
-    //GETTERS
-    @Id
+    //GETTERs
     public long getId() {
         return id;
     }
