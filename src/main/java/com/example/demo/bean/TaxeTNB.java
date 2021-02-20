@@ -1,22 +1,18 @@
 package com.example.demo.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class TaxeTNB {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long annee;
-    private String terrain;
-    private float redouvable;
-    private float taux;
-    private float montantDeBase;
+    @ManyToOne
+    private Terrain terrain;
+    //private Redouvable redouvable;
+    //private TauxTNB taux;
+    private double montantDeBase;
 
-
-    //GETTERS
     public Long getId() {
         return id;
     }
@@ -33,37 +29,19 @@ public class TaxeTNB {
         this.annee = annee;
     }
 
-    public String getTerrain() {
+    public Terrain getTerrain() {
         return terrain;
     }
 
-    public void setTerrain(String terrain) {
+    public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }
 
-    public float getRedouvable() {
-        return redouvable;
-    }
-
-
-    //SETTERS
-    public void setRedouvable(float redouvable) {
-        this.redouvable = redouvable;
-    }
-
-    public float getTaux() {
-        return taux;
-    }
-
-    public void setTaux(float taux) {
-        this.taux = taux;
-    }
-
-    public float getMontantDeBase() {
+    public double getMontantDeBase() {
         return montantDeBase;
     }
 
-    public void setMontantDeBase(float montantDeBase) {
+    public void setMontantDeBase(double montantDeBase) {
         this.montantDeBase = montantDeBase;
     }
 }

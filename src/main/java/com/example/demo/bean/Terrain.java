@@ -16,9 +16,6 @@ public class Terrain {
 
 
     //GETTERs
-    public long getId() {
-        return id;
-    }
 
     public String getReference() {
         return reference;
@@ -37,9 +34,6 @@ public class Terrain {
     }
 
     //SETTERS
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public void setReference(String reference) {
         this.reference = reference;
@@ -55,5 +49,17 @@ public class Terrain {
 
     public void setCategorie(String categorie) {
         this.categorie = categorie;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSurface(Float surface) {
+        this.surface = surface;
     }
 }
