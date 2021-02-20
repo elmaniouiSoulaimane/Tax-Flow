@@ -9,5 +9,4 @@ public interface TerrainDao extends JpaRepository<Terrain, Long> {
 
     Terrain findByReference(String reference);
     Integer deleteByReference(String reference);
-    Integer updateByReference(String reference);
 }
