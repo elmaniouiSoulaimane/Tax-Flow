@@ -1,22 +1,21 @@
 package com.example.demo.bean;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Terrain {
-    private long id;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String reference;
     private String adresse;
-    private float surface;
+    private Float surface;
     private String categorie;
 
 
-    //GETTERS
-    @Id
-    public long getId() {
-        return id;
-    }
+    //GETTERs
 
     public String getReference() {
         return reference;
@@ -36,10 +35,6 @@ public class Terrain {
 
     //SETTERS
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public void setReference(String reference) {
         this.reference = reference;
     }
@@ -54,5 +49,17 @@ public class Terrain {
 
     public void setCategorie(String categorie) {
         this.categorie = categorie;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSurface(Float surface) {
+        this.surface = surface;
     }
 }
