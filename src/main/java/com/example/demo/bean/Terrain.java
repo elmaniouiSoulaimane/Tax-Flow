@@ -5,7 +5,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Terrain {
-    private Integer id;
+    private long id;
     private String reference;
     private String adresse;
     private float surface;
@@ -13,7 +13,8 @@ public class Terrain {
 
 
     //GETTERS
-    public Integer getId() {
+    @Id
+    public long getId() {
         return id;
     }
 
@@ -34,8 +35,8 @@ public class Terrain {
     }
 
     //SETTERS
-    @Id
-    public void setId(Integer id) {
+
+    public void setId(long id) {
         this.id = id;
     }
 
