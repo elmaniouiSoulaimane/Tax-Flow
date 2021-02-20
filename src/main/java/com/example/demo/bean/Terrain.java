@@ -1,6 +1,9 @@
 package com.example.demo.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Terrain {
     private Integer id;
     private String reference;
@@ -28,5 +31,27 @@ public class Terrain {
 
     public String getCategorie() {
         return categorie;
+    }
+
+    //SETTERS
+    @Id
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public void setSurface(float surface) {
+        this.surface = surface;
+    }
+
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
     }
 }
