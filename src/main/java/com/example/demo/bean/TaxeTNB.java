@@ -9,8 +9,10 @@ public class TaxeTNB {
     private Long annee;
     @ManyToOne
     private Terrain terrain;
-    //private Redouvable redouvable;
-    //private TauxTNB taux;
+    @ManyToOne
+    private Redevable redevable;
+    @ManyToOne
+    private Taux taux;
     private double montantDeBase;
 
     public Long getId() {
@@ -43,5 +45,21 @@ public class TaxeTNB {
 
     public void setMontantDeBase(double montantDeBase) {
         this.montantDeBase = montantDeBase;
+    }
+
+    public Redevable getRedevable() {
+        return redevable;
+    }
+
+    public void setRedevable(Redevable redevable) {
+        this.redevable = redevable;
+    }
+
+    public Taux getTaux() {
+        return taux;
+    }
+
+    public void setTaux(Taux taux) {
+        this.taux = taux;
     }
 }

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface TaxeTNBDao extends JpaRepository<com.example.demo.bean.TaxeTNB, Long> {
 
     Terrain findByTerrainReferenceAndAnnee(String ref, Long annee);
+    TaxeTNB findByTerrainId(Long id);
 }
