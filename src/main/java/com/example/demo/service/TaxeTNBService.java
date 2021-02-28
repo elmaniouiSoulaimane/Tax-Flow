@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TaxeTNBService {
@@ -89,10 +91,21 @@ public class TaxeTNBService {
             query+=" And t.annee>'"+taxeVo.getAnneeMin()+"'";
         }
         if(taxeVo.getAnneeMax()!=null){
-            query+=" And t.annee<'"+taxeVo.getAnneeMax()+"'";
+            query+=" And t.annee<='"+taxeVo.getAnneeMax()+"'";
         }
+        System.out.println("query = " + query);
         return entityManager.createQuery(query).getResultList();
     }
+
+    public Map<Integer, Double> calcStatistics(Integer anneeMin, Integer anneeMax) {
+        Map<Integer, Double> res= new HashMap<>();
+        for (int i = anneeMin; i <=anneeMax ; i++) {
+            res.put(i, taxeTNBDao.calcStatistics(new Long(i+"")));
+        }
+        return res;
+    }
+
+
 
 
 }
