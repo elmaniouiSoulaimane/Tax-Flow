@@ -6,9 +6,11 @@ import com.example.demo.bean.TaxeTNB;
 import com.example.demo.bean.Terrain;
 import com.example.demo.dao.TaxeTNBDao;
 import com.example.demo.service.util.Result;
+import com.example.demo.vo.TaxeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
@@ -21,7 +23,8 @@ public class TaxeTNBService {
     private TerrainService terrainService;
     @Autowired
     private TauxService tauxService;
-
+    @Autowired
+    private EntityManager entityManager;
     public Result save(TaxeTNB taxeTNB) {
         return save(taxeTNB,false);
     }
@@ -71,6 +74,24 @@ public class TaxeTNBService {
 
     public Terrain findByTerrainReferenceAndAnnee(String ref, Long annee) {
         return taxeTNBDao.findByTerrainReferenceAndAnnee(ref, annee);
+    }
+
+
+    public List<TaxeTNB> findByCriterea(TaxeVo taxeVo){
+        String query="Select t from TaxeTNB t where 1=1";
+        if(taxeVo.getRedevable()!=null){
+            query+=" And t.redevable.ref='"+taxeVo.getRedevable()+"'";
+        }
+        if(taxeVo.getTerrain()!=null){
+            query+=" And t.terrain.reference='"+taxeVo.getTerrain()+"'";
+        }
+        if(taxeVo.getAnneeMin()!=null){
+            query+=" And t.annee>'"+taxeVo.getAnneeMin()+"'";
+        }
+        if(taxeVo.getAnneeMax()!=null){
+            query+=" And t.annee<'"+taxeVo.getAnneeMax()+"'";
+        }
+        return entityManager.createQuery(query).getResultList();
     }
 
 
