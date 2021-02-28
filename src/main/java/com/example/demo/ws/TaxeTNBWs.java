@@ -3,6 +3,7 @@ package com.example.demo.ws;
 import com.example.demo.bean.TaxeTNB;
 import com.example.demo.bean.Terrain;
 import com.example.demo.service.TaxeTNBService;
+import com.example.demo.service.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,19 +12,18 @@ import java.util.List;
 @RestController
 @RequestMapping("boisson/taxe")
 public class TaxeTNBWs {
-
+    @Autowired
+    public TaxeTNBService taxeTNBService;
     @PostMapping("/")
-    public Integer save(@RequestBody TaxeTNB taxeTNB) {
+    public Result save(@RequestBody TaxeTNB taxeTNB) {
         return taxeTNBService.save(taxeTNB);
     }
-   /* @GetMapping("/")
-    public TaxeTNB findByReference(@PathVariable String reference) {
-        return taxeTNBService.findByReference(reference);
+
+    @GetMapping("/tertain/{id}")
+    public TaxeTNB findByTerrainId(@PathVariable Long id) {
+        return taxeTNBService.findByTerrainId(id);
     }
-    @DeleteMapping("/")
-    public Integer deleteByReference(String reference) {
-        return taxeTNBService.deleteByReference(reference);
-    }*/
+
     @GetMapping("/")
     public List<TaxeTNB> findAll() {
         return taxeTNBService.findAll();
@@ -34,6 +34,4 @@ public class TaxeTNBWs {
         return taxeTNBService.findByTerrainReferenceAndAnnee(ref, annee);
     }
 
-    @Autowired
-    public TaxeTNBService taxeTNBService;
 }
