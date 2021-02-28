@@ -5,6 +5,7 @@ import com.example.demo.bean.Taux;
 import com.example.demo.bean.TaxeTNB;
 import com.example.demo.bean.Terrain;
 import com.example.demo.dao.TaxeTNBDao;
+import com.example.demo.service.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,28 +22,42 @@ public class TaxeTNBService {
     @Autowired
     private TauxService tauxService;
 
+    public Result save(TaxeTNB taxeTNB) {
+        return save(taxeTNB,false);
+    }
 
+    public Result simuler(TaxeTNB taxeTNB) {
+        return save(taxeTNB,true);
+    }
 
-    public Integer save(TaxeTNB taxeTNB) {
+    private Result save(TaxeTNB taxeTNB,boolean simuler) {
+        Result result= new Result("taxeTNBInput",taxeTNB);
         Terrain terrain = terrainService.findByReference(taxeTNB.getTerrain().getReference());
         Redevable redevable= redevableService.findByRef(terrain.getRedevable().getRef());
-        Taux taux = tauxService.findByCategoryId(terrain.getCategory().getId());
         if (findByTerrainReferenceAndAnnee(taxeTNB.getTerrain().getReference(), taxeTNB.getAnnee())!=null) {
-            return -1;
-        }else if (terrain==null){
-            return -2;
-        }else if (redevable==null){
-            return -3;
-        }else if (taux == null){
-            return -4;
-        } else {
+           result.addError(-1,"Taxe deja paye");
+        } if (terrain==null){
+            result.addError(-2,"Terrain non existant");
+        } if (redevable==null){
+            result.addError(-3,"Redevable non existant");
+        } if(terrain.getCategory()==null || terrain.getCategory().getId()==null){
+            result.addError(-4,"Categorie non existant");
+        }
+        Taux taux = tauxService.findByCategoryId(terrain.getCategory().getId());
+
+        if (taux == null){
+            result.addError(-5,"Taux non existant");
+        }
+        if(result.hasNoError()) {
             taxeTNB.setRedevable(redevable);
             taxeTNB.setTerrain(terrain);
             taxeTNB.setTaux(taux);
             taxeTNB.setMontantDeBase(taxeTNB.getTaux().getPrix()*taxeTNB.getTerrain().getSurface());
+            if (simuler == false)
             taxeTNBDao.save(taxeTNB);
-            return 1;
+           result.addInfo(1,"Taxe Saved");
         }
+        return result;
     }
 
     public TaxeTNB findByTerrainId(Long id) {
