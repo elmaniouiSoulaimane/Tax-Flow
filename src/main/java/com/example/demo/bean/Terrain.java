@@ -4,10 +4,12 @@ import javax.persistence.*;
 
 @Entity
 public class Terrain {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String reference;
-    private String adresse;
+    @ManyToOne
+    private Adresse adresse;
+
     private double surface;
     @ManyToOne
     private Category category;
@@ -30,11 +32,11 @@ public class Terrain {
         this.reference = reference;
     }
 
-    public String getAdresse() {
+    public Adresse getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(String adresse) {
+    public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
     }
 
@@ -61,4 +63,6 @@ public class Terrain {
     public void setRedevable(Redevable redevable) {
         this.redevable = redevable;
     }
+
+
 }

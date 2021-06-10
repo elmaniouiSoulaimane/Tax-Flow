@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface CategoryDao  extends JpaRepository<Category,Long> {
     Category findByCode(String code);
     Category findByLibelle(String libelle);
-
+    int deleteByCode(String code);
 }
