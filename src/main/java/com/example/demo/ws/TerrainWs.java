@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("boisson/terrain")
+@RequestMapping("taxe-tnb/terrain")
 public class TerrainWs {
+    @Autowired
+    public TerrainService terrainService;
+
     @PostMapping("/")
     public Integer save(@RequestBody Terrain terrain) {
         return terrainService.save(terrain);
@@ -31,7 +34,9 @@ public class TerrainWs {
         return terrainService.findAll();
     }
 
-    @Autowired
-    public TerrainService terrainService;
+    @PutMapping("terrain/{id}")
+    public Terrain update(@RequestBody Terrain nouveauTerrain,Long id){
+        return terrainService.update(nouveauTerrain,id);
+    }
 
 }

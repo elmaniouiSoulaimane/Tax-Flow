@@ -4,11 +4,14 @@ import com.example.demo.bean.Category;
 import com.example.demo.dao.CategoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class CategoryService {
+    @Autowired
+    private CategoryDao categoryDao;
 
     public int save (Category category){
         if (findByCode(category.getCode())!=null)
@@ -30,6 +33,22 @@ public class CategoryService {
         return categoryDao.findAll();
     }
 
-    @Autowired
-    private CategoryDao categoryDao;
+    @Transactional
+    public Integer deleteByLibelle(String libelle){
+        return categoryDao.deleteByLibelle(libelle);
+    }
+
+    @Transactional
+    public Category update(Category nouveauCategory, Long id){
+        return categoryDao.findById(id).map(category ->{
+            category.setCode(nouveauCategory.getCode());
+            category.setLibelle(nouveauCategory.getLibelle());
+            return categoryDao.save(category);
+        }).orElseGet(()->{
+           nouveauCategory.setId(id);
+           return categoryDao.save(nouveauCategory);
+        });
+    }
+
+
 }

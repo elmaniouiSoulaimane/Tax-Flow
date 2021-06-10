@@ -2,6 +2,7 @@ package com.example.demo.ws;
 
 import com.example.demo.bean.Redevable;
 import com.example.demo.service.RedevableService;
+import com.example.demo.vo.RedevableVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,5 +31,13 @@ public class RedevableWs {
     @PostMapping("/")
     public int save(@RequestBody Redevable redevable) {
         return redevableService.save(redevable);
+    }
+    @PutMapping("redevable/{id}")
+    public Redevable update(@RequestBody Redevable nouveauRedevable, Long id){
+        return redevableService.update(nouveauRedevable,id);
+    }
+    @PostMapping("/criterea")
+    public List<Redevable> findByCriterea(@RequestBody RedevableVo redevableVo){
+        return redevableService.findByCriterea(redevableVo);
     }
 }

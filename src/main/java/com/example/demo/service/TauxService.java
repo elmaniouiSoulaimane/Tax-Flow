@@ -4,6 +4,7 @@ import com.example.demo.bean.Taux;
 import com.example.demo.dao.TauxDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,5 +28,22 @@ public class TauxService {
             tauxDao.save(taux);
             return 1;
         }
+    }
+
+    @Transactional
+    public Integer deleteByCategory_Libelle(String libelle){
+        return tauxDao.deleteByCategory_Libelle(libelle);
+    }
+
+
+    public Taux update(Taux nouveauTaux,Long id){
+        return tauxDao.findById(id).map(taux -> {
+            taux.setPrix(nouveauTaux.getPrix());
+            taux.setCategory(nouveauTaux.getCategory());
+            return tauxDao.save(taux);
+        }).orElseGet(()->{
+           nouveauTaux.setId(id);
+           return tauxDao.save(nouveauTaux);
+        });
     }
 }

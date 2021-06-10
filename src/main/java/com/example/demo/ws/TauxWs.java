@@ -24,4 +24,13 @@ public class TauxWs {
     public int save(Taux taux) {
         return tauxService.save(taux);
     }
+    @DeleteMapping("libelle-category/{libelle}")
+    public Integer deleteByCategory_Libelle(String libelle){
+        return tauxService.deleteByCategory_Libelle(libelle);
+    }
+    @PutMapping("taux/{id}")
+    public Taux update(Taux nouveauTaux,Long id){
+        return tauxService.update(nouveauTaux,id);
+    }
+
 }

@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("boisson/category")
+@RequestMapping("terrain/category")
 public class CategoryWs {
-@GetMapping("/code/{code}")
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping("/code/{code}")
     public Category findByCode(@PathVariable String code) {
         return categoryService.findByCode(code);
     }
@@ -22,11 +25,17 @@ public class CategoryWs {
     public List<Category> findAll() {
         return categoryService.findAll();
     }
-@PostMapping("/")
+    @PostMapping("/")
     public int save(@RequestBody Category category) {
         return categoryService.save(category);
     }
+    @DeleteMapping("libelle/{libelle}")
+    public Integer deleteByLibelle(@PathVariable String libelle){
+        return categoryService.deleteByLibelle(libelle);
+    }
+    @PutMapping("category/{id}")
+    public Category update(@RequestBody Category nouveauCategory,@PathVariable Long id){
+        return categoryService.update(nouveauCategory,id);
+    }
 
-    @Autowired
-    private CategoryService categoryService;
 }
