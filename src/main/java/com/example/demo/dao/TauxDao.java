@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TauxDao extends JpaRepository<Taux,Long> {
     Taux findByCategoryId(Long id);
+    Integer deleteByCategory_Libelle(String libelle);
 }

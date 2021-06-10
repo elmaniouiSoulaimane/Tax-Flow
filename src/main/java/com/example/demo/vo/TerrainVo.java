@@ -1,19 +1,14 @@
-package com.example.demo.bean;
+package com.example.demo.vo;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-public class Terrain {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+public class TerrainVo {
     private Long id;
     private String reference;
     private String adresse;
-    private double surface;
-    @ManyToOne
-    private Category category;
-    @ManyToOne
-    private Redevable redevable;
+    private Double surface;
+    private String category;
+    private String redevable;
     private Date dateDeclaration;
     private Date dateAchat;
     private boolean declaree;
@@ -42,27 +37,27 @@ public class Terrain {
         this.adresse = adresse;
     }
 
-    public double getSurface() {
+    public Double getSurface() {
         return surface;
     }
 
-    public void setSurface(double surface) {
+    public void setSurface(Double surface) {
         this.surface = surface;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public Redevable getRedevable() {
+    public String getRedevable() {
         return redevable;
     }
 
-    public void setRedevable(Redevable redevable) {
+    public void setRedevable(String redevable) {
         this.redevable = redevable;
     }
 

@@ -1,6 +1,17 @@
 package com.example.demo.bean;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Year;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 public class TaxeTNB {
@@ -13,7 +24,13 @@ public class TaxeTNB {
     private Redevable redevable;
     @ManyToOne
     private Taux taux;
+    @OneToOne
+    private Penalite penalite;
+    @OneToOne
+    private Exoneration exoneration;
     private double montantDeBase;
+    private double montantDeTaxeTotale;
+    private boolean statusPaiement;
 
     public Long getId() {
         return id;
@@ -39,14 +56,6 @@ public class TaxeTNB {
         this.terrain = terrain;
     }
 
-    public double getMontantDeBase() {
-        return montantDeBase;
-    }
-
-    public void setMontantDeBase(double montantDeBase) {
-        this.montantDeBase = montantDeBase;
-    }
-
     public Redevable getRedevable() {
         return redevable;
     }
@@ -61,5 +70,76 @@ public class TaxeTNB {
 
     public void setTaux(Taux taux) {
         this.taux = taux;
+    }
+
+    public Penalite getPenalite() {
+        return penalite;
+    }
+
+    public void calculFractionDeMoisSupplementaireParAnnee(LocalDateTime now){
+        int month = now.getMonthValue();
+
+        for (int currentMonth = month; currentMonth <= 12; currentMonth++) {
+            if(!this.statusPaiement){
+                Double fractionDeMoisSupplementaire = (this.montantDeBase * (0.50/100)) + this.penalite.getFractionDeMoisSupplementaire();
+                this.penalite.setFractionDeMoisSupplementaire(fractionDeMoisSupplementaire);
+            }
+        }
+
+    }
+    public void setPenalite(Penalite penalite) {
+        if(!this.isStatusPaiement()){
+            LocalDateTime now = LocalDateTime.now();
+            int anneeCourant = now.getYear();
+            int anneeTaxe = Math.toIntExact(this.annee);
+            if(anneeCourant==anneeTaxe){
+                Month moisCourant = now.getMonth();
+                if(moisCourant==Month.MARCH){
+                    this.penalite.setMajoration();
+                    this.penalite.setMontant();
+                    this.penalite.setFractionDeMoisSupplementaire(0.0);
+                }
+                if(moisCourant!=Month.JANUARY || moisCourant!=Month.FEBRUARY || moisCourant!=Month.MARCH){
+                    Double fractionDeMoisSupplementaire = (this.montantDeBase * (0.50/100)) + this.penalite.getFractionDeMoisSupplementaire();
+                    this.penalite.setFractionDeMoisSupplementaire(fractionDeMoisSupplementaire);
+                }
+            }else{
+                calculFractionDeMoisSupplementaireParAnnee(now);
+            }
+        }
+        Double fractionDeMoisSupplementaire = (this.montantDeBase * (0.50/100)) + this.penalite.getFractionDeMoisSupplementaire();
+        this.penalite.setFractionDeMoisSupplementaire(fractionDeMoisSupplementaire);
+    }
+
+    public Exoneration getExoneration() {
+        return exoneration;
+    }
+
+    public void setExoneration(Exoneration exoneration) {
+        this.exoneration = exoneration;
+    }
+
+    public double getMontantDeBase() {
+        return montantDeBase;
+    }
+
+    public void setMontantDeBase(double montantDeBase) {
+        this.montantDeBase = montantDeBase;
+    }
+
+    public double getMontantDeTaxeTotale() {
+        return montantDeTaxeTotale;
+    }
+
+    public void setMontantDeTaxeTotale(double montantDeTaxeTotale) {
+        this.montantDeTaxeTotale = montantDeTaxeTotale;
+    }
+
+    public boolean isStatusPaiement() {
+        return statusPaiement;
+    }
+
+    public void setStatusPaiement(boolean statusPaiement) {
+        this.statusPaiement = statusPaiement;
     }
 }

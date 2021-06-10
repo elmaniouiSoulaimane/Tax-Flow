@@ -2,7 +2,7 @@ package com.example.demo.ws;
 
 import com.example.demo.bean.Redevable;
 import com.example.demo.service.RedevableService;
-import com.example.demo.service.util.Result;
+import com.example.demo.vo.RedevableVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,39 +12,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("boisson/redevable")
-@CrossOrigin("http://localhost:4200")
 public class RedevableWs {
     @Autowired
     private RedevableService redevableService;
-
-    @GetMapping("/RechercheRedevable/{ref}")
+    @GetMapping("/referance/{ref}")
     public Redevable findByRef(@PathVariable String ref) {
         return redevableService.findByRef(ref);
     }
-
-    @DeleteMapping("/DeleteRedevable/{ref}")
+    @DeleteMapping("/referance/{ref}")
     @Transactional
     public int deleteByRef(@PathVariable String ref) {
         return redevableService.deleteByRef(ref);
     }
-
-    @GetMapping("/ListRedevables")
+    @GetMapping("/")
     public List<Redevable> findAll() {
         return redevableService.findAll();
     }
-
-    @PostMapping("/AjouterRedevable")
-
-    public Result save(@RequestBody Redevable redevable) {
+    @PostMapping("/")
+    public int save(@RequestBody Redevable redevable) {
         return redevableService.save(redevable);
     }
-    @PutMapping("/ModifierRedevable/{ref}")
-    public Result updateRedevable(@PathVariable String ref,@RequestBody Redevable redevableMod) {
-        return redevableService.updateRedevable(ref, redevableMod);
+    @PutMapping("redevable/{id}")
+    public Redevable update(@RequestBody Redevable nouveauRedevable, Long id){
+        return redevableService.update(nouveauRedevable,id);
     }
-    @Transactional
-    @DeleteMapping("/deleteRedevabe/{ref}")
-    public Result deleteRedevable(@PathVariable String ref) {
-        return redevableService.deleteRedevable(ref);
+    @PostMapping("/criterea")
+    public List<Redevable> findByCriterea(@RequestBody RedevableVo redevableVo){
+        return redevableService.findByCriterea(redevableVo);
     }
 }

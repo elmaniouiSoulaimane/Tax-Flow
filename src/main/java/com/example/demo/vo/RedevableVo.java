@@ -1,17 +1,11 @@
-package com.example.demo.bean;
+package com.example.demo.vo;
 
-import javax.persistence.*;
-
-@Entity
-public class Redevable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class RedevableVo {
     private Long id;
     private String ref;
     private String adresse;
     private String nomCommercial;
-    @ManyToOne
-    private TypeRedevable typeRedevable;
+    private String typeRedevable;
 
     public Long getId() {
         return id;
@@ -45,11 +39,11 @@ public class Redevable {
         this.nomCommercial = nomCommercial;
     }
 
-    public TypeRedevable getTypeRedevable() {
+    public String getTypeRedevable() {
         return typeRedevable;
     }
 
-    public void setTypeRedevable(TypeRedevable typeRedevable) {
+    public void setTypeRedevable(String typeRedevable) {
         this.typeRedevable = typeRedevable;
     }
 }

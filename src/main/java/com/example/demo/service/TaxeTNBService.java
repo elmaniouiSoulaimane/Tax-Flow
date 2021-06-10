@@ -40,7 +40,7 @@ public class TaxeTNBService {
         Terrain terrain = terrainService.findByReference(taxeTNB.getTerrain().getReference());
         Redevable redevable= redevableService.findByRef(terrain.getRedevable().getRef());
         if (findByTerrainReferenceAndAnnee(taxeTNB.getTerrain().getReference(), taxeTNB.getAnnee())!=null) {
-           result.addError(-1,"Taxe deja paye");
+            result.addError(-1,"Taxe deja paye");
         } if (terrain==null){
             result.addError(-2,"Terrain non existant");
         } if (redevable==null){
@@ -59,8 +59,8 @@ public class TaxeTNBService {
             taxeTNB.setTaux(taux);
             taxeTNB.setMontantDeBase(taxeTNB.getTaux().getPrix()*taxeTNB.getTerrain().getSurface());
             if (simuler == false)
-            taxeTNBDao.save(taxeTNB);
-           result.addInfo(1,"Taxe Saved");
+                taxeTNBDao.save(taxeTNB);
+            result.addInfo(1,"Taxe Saved");
         }
         return result;
     }
@@ -74,7 +74,7 @@ public class TaxeTNBService {
     }
 
 
-    public Terrain findByTerrainReferenceAndAnnee(String ref, Long annee) {
+    public TaxeTNB findByTerrainReferenceAndAnnee(String ref, Long annee) {
         return taxeTNBDao.findByTerrainReferenceAndAnnee(ref, annee);
     }
 
@@ -104,7 +104,6 @@ public class TaxeTNBService {
         }
         return res;
     }
-
 
 
 
