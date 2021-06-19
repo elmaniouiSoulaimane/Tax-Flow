@@ -14,6 +14,5 @@ public interface TerrainDao extends JpaRepository<Terrain, Long> {
 
     Terrain findByReference(String reference);
     Integer deleteByReference(String reference);
-    @Query("select count (t.reference) from Terrain t WHERE t.dateDeclaration=:anneeDeclaration")
-    Integer calcStatistics(@Param(value="dateDeclaration") Integer anneeDeclaration);
+
 }

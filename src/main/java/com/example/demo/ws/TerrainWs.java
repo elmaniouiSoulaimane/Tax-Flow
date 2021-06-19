@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("taxe-tnb/terrain")
+@RequestMapping("boisson/terrain")
+@CrossOrigin("http://localhost:4200")
 public class TerrainWs {
     @Autowired
     public TerrainService terrainService;
 
-    @PostMapping("/")
+    @PostMapping("/AjouterTerrain")
     public Integer save(@RequestBody Terrain terrain) {
         return terrainService.save(terrain);
     }
@@ -23,19 +24,19 @@ public class TerrainWs {
     public Terrain findByReference(@PathVariable String reference) {
         return terrainService.findByReference(reference);
     }
-
-    @DeleteMapping("/reference/{reference}")
+    @Transactional
+    @DeleteMapping("/RechercherTerrain/{reference}")
     public Integer deleteByReference(@PathVariable String reference) {
         return terrainService.deleteByReference(reference);
     }
 
-    @GetMapping("/")
+    @GetMapping("/ListTerrains")
     public List<Terrain> findAll() {
         return terrainService.findAll();
     }
 
-    @PutMapping("terrain/{id}")
-    public Terrain update(@RequestBody Terrain nouveauTerrain,Long id){
+    @PutMapping("/ModifierTerrain/{ref}")
+    public Terrain update(@RequestBody Terrain nouveauTerrain,@PathVariable Long id){
         return terrainService.update(nouveauTerrain,id);
     }
 

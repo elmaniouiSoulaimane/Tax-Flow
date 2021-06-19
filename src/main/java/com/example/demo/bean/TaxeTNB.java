@@ -32,6 +32,9 @@ public class TaxeTNB {
     private double montantDeTaxeTotale;
     private boolean statusPaiement;
 
+    public TaxeTNB() {
+    }
+
     public Long getId() {
         return id;
     }

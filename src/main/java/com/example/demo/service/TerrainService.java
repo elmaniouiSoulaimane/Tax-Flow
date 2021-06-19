@@ -96,7 +96,7 @@ public class TerrainService {
         return entityManager.createQuery(query).getResultList();
     }
 
-    public Map<Integer,Integer> calcStatisticsParAnnee(Date dateMin, Date dateMax){
+  /*  public Map<Integer,Integer> calcStatisticsParAnnee(Date dateMin, Date dateMax){
         Map<Integer,Integer> res= new HashMap<>();
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateMin);
@@ -118,7 +118,7 @@ public class TerrainService {
             k++;
         }
         return res;
-    }
+    }*/
 
 
 }
