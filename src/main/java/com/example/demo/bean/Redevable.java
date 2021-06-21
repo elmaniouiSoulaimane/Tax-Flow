@@ -12,6 +12,8 @@ public class Redevable {
     private String nomCommercial;
     @ManyToOne
     private TypeRedevable typeRedevable;
+    private boolean permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures;
+    private boolean promoteurImmobilier;
 
     public Long getId() {
         return id;
@@ -51,5 +53,21 @@ public class Redevable {
 
     public void setTypeRedevable(TypeRedevable typeRedevable) {
         this.typeRedevable = typeRedevable;
+    }
+
+    public boolean isPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures() {
+        return permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures;
+    }
+
+    public void setPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures(boolean permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures) {
+        this.permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures = permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures;
+    }
+
+    public boolean isPromoteurImmobilier() {
+        return promoteurImmobilier;
+    }
+
+    public void setPromoteurImmobilier(boolean promoteurImmobilier) {
+        this.promoteurImmobilier = promoteurImmobilier;
     }
 }

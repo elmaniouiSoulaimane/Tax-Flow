@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Repository
 public interface PenaliteDao extends JpaRepository<Penalite, Long> {
-    Penalite findByTaxeTNBAnnee(Date annee);
+    Penalite findByTaxeTNBAnnee(Long annee);
     Penalite findByTaxeTNBTerrainReference(String reference);
     Integer deleteByTaxeTNBAnnee(Year annee);
 }

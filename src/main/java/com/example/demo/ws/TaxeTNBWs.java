@@ -46,6 +46,4 @@ public class TaxeTNBWs {
     public Map<Integer, Double> calcStatistics(@PathVariable Integer anneeMin,@PathVariable Integer anneeMax) {
         return taxeTNBService.calcStatistics(anneeMin, anneeMax);
     }
-
-
 }

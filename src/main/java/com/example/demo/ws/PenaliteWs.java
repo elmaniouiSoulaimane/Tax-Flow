@@ -21,7 +21,7 @@ public class PenaliteWs {
     }
 
     @GetMapping("penalite/{annee}")
-    public Penalite findfindByTaxeTNBAnnee(Date annee){
+    public Penalite findfindByTaxeTNBAnnee(Long annee){
         return penaliteService.findfindByTaxeTNBAnnee(annee);
     }
 

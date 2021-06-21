@@ -15,14 +15,14 @@ import java.util.List;
 public class RedevableWs {
     @Autowired
     private RedevableService redevableService;
-    @GetMapping("/referance/{ref}")
-    public Redevable findByRef(@PathVariable String ref) {
-        return redevableService.findByRef(ref);
+    @GetMapping("/nomCommercial/{nomCommercial}")
+    public Redevable findByNomCommercial(@PathVariable String nomCommercial) {
+        return redevableService.findByNomCommmercial(nomCommercial);
     }
     @DeleteMapping("/referance/{ref}")
     @Transactional
-    public int deleteByRef(@PathVariable String ref) {
-        return redevableService.deleteByRef(ref);
+    public int deleteByNomCommercial(@PathVariable String nomCommercial) {
+        return redevableService.deleteByNomCommercial(nomCommercial);
     }
     @GetMapping("/")
     public List<Redevable> findAll() {

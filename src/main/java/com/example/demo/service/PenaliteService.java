@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.bean.Penalite;
+import com.example.demo.bean.TaxeTNB;
 import com.example.demo.dao.PenaliteDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class PenaliteService {
         return findAll();
     }
 
-    public Penalite findfindByTaxeTNBAnnee(Date annee){
+    public Penalite findfindByTaxeTNBAnnee(Long annee){
         return penaliteDao.findByTaxeTNBAnnee(annee);
     }
 
@@ -52,11 +53,10 @@ public class PenaliteService {
 
     public Penalite update(Penalite nouveauPenalite,Long id){
         return penaliteDao.findById(id).map(penalite -> {
-            penalite.setTaxeTNB(nouveauPenalite.getTaxeTNB());
-            penalite.setTauxRetardDeclarationTerrain(nouveauPenalite.getTauxRetardPaiementTaxeTNB());
-            penalite.setTauxRetardPaiementTaxeTNB(nouveauPenalite.getTauxRetardPaiementTaxeTNB());
-            penalite.setTauxPenaliteTotale(nouveauPenalite.getTauxPenaliteTotale());
-            return penaliteDao.save(penalite);
+            TaxeTNBService taxeTNBService = new TaxeTNBService();
+            TaxeTNB taxeTNB;
+            taxeTNB = taxeTNBService.findByAnnee(nouveauPenalite.getTaxeTNB().getAnnee());
+            return penaliteDao.save(taxeTNB.setPenalite());
         }).orElseGet(()->{
            nouveauPenalite.setId(id);
            return penaliteDao.save(nouveauPenalite);
