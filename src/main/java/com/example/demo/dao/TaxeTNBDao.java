@@ -14,6 +14,7 @@ public interface TaxeTNBDao extends JpaRepository<com.example.demo.bean.TaxeTNB,
 
     TaxeTNB findByTerrainReferenceAndAnnee(String ref, Long annee);
     TaxeTNB findByTerrainId(Long id);
+    TaxeTNB findByAnnee(Long annee);
     @Query("select sum(t.montantDeBase) from  TaxeTNB  t WHERE t.annee= :annee")
     Double calcStatistics(@Param(value="annee") Long annee);
     Integer deleteByAnnee(Long annee);

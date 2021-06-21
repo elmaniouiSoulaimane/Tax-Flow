@@ -45,8 +45,8 @@ public class Penalite {
         return tauxRetardPaiementTaxeTNB;
     }
 
-    public void setTauxRetardPaiementTaxeTNB(Double tauxRetardPaiementTaxeTNB) {
-        this.tauxRetardPaiementTaxeTNB = tauxRetardPaiementTaxeTNB;
+    public void setTauxRetardPaiementTaxeTNB() {
+        this.tauxRetardPaiementTaxeTNB = this.getMontant() + this.getMajoration() + this.getFractionDeMoisSupplementaire();
     }
 
     public Double getTauxPenaliteTotale() {
@@ -70,7 +70,7 @@ public class Penalite {
     }
 
     public void setMajoration() {
-        this.majoration = this.taxeTNB.getMontantDeBase() * (5/100);;
+        this.majoration = this.taxeTNB.getMontantDeBase() * (5/100);
     }
 
     public Double getFractionDeMoisSupplementaire() {

@@ -16,12 +16,12 @@ public class RedevableService {
     @Autowired
     private EntityManager entityManager;
 
-    public Redevable findByRef(String ref) {
-        return redevableDao.findByRef(ref);
+    public Redevable findByNomCommmercial(String nomCommercial) {
+        return redevableDao.findByNomCommercial(nomCommercial);
     }
     @Transactional
-    public int deleteByRef(String ref) {
-        return redevableDao.deleteByRef(ref);
+    public int deleteByNomCommercial(String nomCommercial) {
+        return redevableDao.deleteByNomCommercial(nomCommercial);
     }
 
     public List<Redevable> findAll() {
@@ -29,7 +29,7 @@ public class RedevableService {
     }
 
     public int save(Redevable redevable) {
-        if (findByRef(redevable.getRef())!=null){
+        if (findByNomCommmercial(redevable.getNomCommercial())!=null){
             return -1;
         }else {
             redevableDao.save(redevable);
@@ -52,7 +52,7 @@ public class RedevableService {
     }
 
     public List<Redevable> findByCriterea(RedevableVo redevableVo){
-        String query="Select r d=from Redevable r where 1=1";
+        String query="Select r from Redevable r where 1=1";
         if(redevableVo.getRef()!=null){
             query+= "And r.ref='"+redevableVo.getRef()+"'";
         }

@@ -87,7 +87,7 @@ public class TaxeTNB {
         }
 
     }
-    public void setPenalite(Penalite penalite) {
+    public Penalite setPenalite() {
         if(!this.isStatusPaiement()){
             LocalDateTime now = LocalDateTime.now();
             int anneeCourant = now.getYear();
@@ -109,16 +109,12 @@ public class TaxeTNB {
         }
         Double fractionDeMoisSupplementaire = (this.montantDeBase * (0.50/100)) + this.penalite.getFractionDeMoisSupplementaire();
         this.penalite.setFractionDeMoisSupplementaire(fractionDeMoisSupplementaire);
+        return this.getPenalite();
     }
 
     public Exoneration getExoneration() {
         return exoneration;
     }
-
-    public void setExoneration(Exoneration exoneration) {
-        this.exoneration = exoneration;
-    }
-
     public double getMontantDeBase() {
         return montantDeBase;
     }
@@ -141,5 +137,9 @@ public class TaxeTNB {
 
     public void setStatusPaiement(boolean statusPaiement) {
         this.statusPaiement = statusPaiement;
+    }
+
+    public void setExoneration() {
+        this.exoneration = exoneration;
     }
 }
