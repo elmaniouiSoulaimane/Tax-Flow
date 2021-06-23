@@ -10,12 +10,10 @@ public class Penalite {
     private Long id;
     @OneToOne
     private TaxeTNB taxeTNB;
-    private Double tauxRetardDeclarationTerrain;
     private Double tauxRetardPaiementTaxeTNB;
     private Double montant;
     private Double majoration;
     private Double fractionDeMoisSupplementaire;
-    private Double tauxPenaliteTotale;
 
     public Long getId() {
         return id;
@@ -32,45 +30,16 @@ public class Penalite {
     public void setTaxeTNB(TaxeTNB taxeTNB) {
         this.taxeTNB = taxeTNB;
     }
-
-    public Double getTauxRetardDeclarationTerrain() {
-        return tauxRetardDeclarationTerrain;
-    }
-
-    public void setTauxRetardDeclarationTerrain(Double tauxRetardDeclarationTerrain) {
-        this.tauxRetardDeclarationTerrain = tauxRetardDeclarationTerrain;
-    }
-
     public Double getTauxRetardPaiementTaxeTNB() {
         return tauxRetardPaiementTaxeTNB;
-    }
-
-    public void setTauxRetardPaiementTaxeTNB() {
-        this.tauxRetardPaiementTaxeTNB = this.getMontant() + this.getMajoration() + this.getFractionDeMoisSupplementaire();
-    }
-
-    public Double getTauxPenaliteTotale() {
-        return tauxPenaliteTotale;
-    }
-
-    public void setTauxPenaliteTotale(Double tauxPenaliteTotale) {
-        this.tauxPenaliteTotale = tauxPenaliteTotale;
     }
 
     public Double getMontant() {
         return montant;
     }
 
-    public void setMontant() {
-        this.montant = this.taxeTNB.getMontantDeBase()* (10/100);
-    }
-
     public Double getMajoration() {
         return majoration;
-    }
-
-    public void setMajoration() {
-        this.majoration = this.taxeTNB.getMontantDeBase() * (5/100);
     }
 
     public Double getFractionDeMoisSupplementaire() {
@@ -80,4 +49,17 @@ public class Penalite {
     public void setFractionDeMoisSupplementaire(Double fractionDeMoisSupplementaire) {
         this.fractionDeMoisSupplementaire = fractionDeMoisSupplementaire;
     }
+
+    public void setTauxRetardPaiementTaxeTNB() {
+        this.tauxRetardPaiementTaxeTNB = this.getMontant() + this.getMajoration() + this.getFractionDeMoisSupplementaire();
+    }
+
+    public void setMontant() {
+        this.montant = this.taxeTNB.getMontantDeBase()* (10/100);
+    }
+
+    public void setMajoration() {
+        this.majoration = this.taxeTNB.getMontantDeBase() * (5/100);
+    }
+
 }
