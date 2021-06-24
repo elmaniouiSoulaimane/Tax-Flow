@@ -23,6 +23,10 @@ public class Terrain {
     @OneToOne
     private Taux taux;
 
+    public void setDeclaree(boolean declaree) {
+        this.declaree = declaree;
+    }
+
     public Long getId() {
         return id;
     }
