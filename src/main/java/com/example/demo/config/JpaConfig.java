@@ -14,7 +14,7 @@ public class JpaConfig {
     public DataSource mySqlDataSource()
     {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:mysql://localhost/taxeFlow");
+        dataSourceBuilder.url("jdbc:mysql://localhost/taxe-tnb");
         dataSourceBuilder.username("root");
         dataSourceBuilder.password("");
         return dataSourceBuilder.build();

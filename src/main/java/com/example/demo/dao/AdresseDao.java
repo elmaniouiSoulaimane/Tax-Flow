@@ -8,7 +8,9 @@ import java.util.List;
 
 @Repository
 public interface AdresseDao extends JpaRepository<Adresse,Long> {
-    Adresse findByRef(String ref);
-    int deleteByRef(String ref);
+    Adresse findByQuartierId(Long id);
+    int deleteByQuartierIdAndNumLot(Long id,String num);
+    Adresse findByQuartierIdAndNumLot(Long id,String num);
     List<Adresse>findByQuartier_Id(Long id);
+
 }

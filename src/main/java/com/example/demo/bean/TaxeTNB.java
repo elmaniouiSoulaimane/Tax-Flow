@@ -19,8 +19,7 @@ public class TaxeTNB {
     private Taux taux;
     @OneToOne
     private Penalite penalite;
-    @OneToOne
-    private Exoneration exoneration;
+
     private double montantDeBase;
     private double montantDeTaxeTotale;
     private boolean statusPaiement;
@@ -109,9 +108,7 @@ public class TaxeTNB {
         return this.getPenalite();
     }
 
-    public Exoneration getExoneration() {
-        return exoneration;
-    }
+
     public double getMontantDeBase() {
         return montantDeBase;
     }
@@ -136,7 +133,5 @@ public class TaxeTNB {
         this.statusPaiement = statusPaiement;
     }
 
-    public void setExoneration() {
-        this.exoneration = exoneration;
-    }
+
 }

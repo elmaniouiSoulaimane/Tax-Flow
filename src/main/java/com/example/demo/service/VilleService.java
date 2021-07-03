@@ -41,6 +41,9 @@ public class VilleService {
         if (findByCode(ville.getCode())!=null){
             result.addError(-1,"ville deja exist");
         }
+        if(ville.getName()==null){
+            result.addError(-2,"Champs Nom Ville Vide");
+        }
         if (result.hasNoError()){
             villeDao.save(ville);
             result.addInfo(1,"ville Ajouter");

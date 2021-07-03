@@ -27,6 +27,15 @@ public class QuartierService {
         if (findByCode(quartier.getCode())!=null){
             result.addError(-1,"quartier deja exist");
         }
+        if (quartier.getName()==null){
+            result.addError(-2,"Champ name est vide");
+        }
+        if (quartier.getCode()==null){
+            result.addError(-3,"Champ code est null");
+        }
+        if (quartier.getRue()==null){
+            result.addError(-4,"champ Rue est null");
+        }
         if (result.hasNoError()){
             quartierDao.save(quartier);
             result.addInfo(1,"quartier Ajouter");

@@ -20,11 +20,11 @@ public class Terrain {
     private Date dateDeclaration;
     private Date dateAchat;
     private boolean declaree;
-    @ManyToOne
+    /*@ManyToOne
     private TaxeTNB taxeTNB;
     @OneToOne
     private Taux taux;
-
+    */
     public void setDeclaree(boolean declaree) {
         this.declaree = declaree;
     }
@@ -96,7 +96,7 @@ public class Terrain {
     public boolean isDeclaree() {
         return declaree;
     }
-
+    /*
     public TaxeTNB getTaxeTNB() {
         return taxeTNB;
     }
@@ -133,7 +133,8 @@ public class Terrain {
                 !this.redevable.getTypeRedevable().getNomType().equals("Agence pour la promotion et le développement économique et social des Provinces du Sud du Royaume") ||
                 !this.redevable.getTypeRedevable().getNomType().equals("Agence pour la promotion et le développement économique et social de la préfecture et des provinces de la région Orientale du Royaume") ||
                 !this.redevable.getTypeRedevable().getNomType().equals("Agence pour l’aménagement de la Vallée de Bou Regreg") ||
-                this.getRedevable().isPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures() ||
+                //this.getRedevable().isPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures() ||
+                this.getRedevable().isPermisRCDGD()||
                 this.getRedevable().isPromoteurImmobilier()){
             if(this.getSurface() <= 30){
                 LocalDateTime present = LocalDateTime.now();
@@ -162,7 +163,5 @@ public class Terrain {
         }
     }
 
-    public void setDeclaree(boolean declaree) {
-        this.declaree = declaree;
-    }
+    */
 }

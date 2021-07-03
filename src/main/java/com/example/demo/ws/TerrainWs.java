@@ -20,12 +20,12 @@ public class TerrainWs {
         return terrainService.save(terrain);
     }
 
-    @GetMapping("/reference/{reference}")
+    @GetMapping("/RechercherTerrain/{reference}")
     public Terrain findByReference(@PathVariable String reference) {
         return terrainService.findByReference(reference);
     }
     @Transactional
-    @DeleteMapping("/RechercherTerrain/{reference}")
+    @DeleteMapping("/SupprimerTerrain/{reference}")
     public Integer deleteByReference(@PathVariable String reference) {
         return terrainService.deleteByReference(reference);
     }
@@ -35,7 +35,7 @@ public class TerrainWs {
         return terrainService.findAll();
     }
 
-    @PutMapping("/ModifierTerrain/{ref}")
+    @PutMapping("/ModifierTerrain/{id}")
     public Terrain update(@RequestBody Terrain nouveauTerrain,@PathVariable Long id){
         return terrainService.update(nouveauTerrain,id);
     }

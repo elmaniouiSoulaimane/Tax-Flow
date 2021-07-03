@@ -65,6 +65,7 @@ public class UserService {
             user.setUsername(userMod.getUsername());
             user.setPassword(passwordEncoder().encode(userMod.getPassword()));
             user.setRole(userMod.getRole());
+            user.setCommune(userMod.getCommune());
             User updatedUser = userDao.save(user);
             result.addInfo(1,"user est modifier");
         }
@@ -111,7 +112,7 @@ public class UserService {
         }
         return user;
     }
-
+/*
     public User verifyLoginIn(String username,String password){
         User user = new User();
         UserVo userVo = new UserVo();
@@ -123,5 +124,5 @@ public class UserService {
             user.setUsername("user n'exist pas");
         }
         return user;
-    }
+    }*/
 }

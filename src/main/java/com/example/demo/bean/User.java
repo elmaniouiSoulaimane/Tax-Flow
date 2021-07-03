@@ -15,6 +15,8 @@ public class User {
     private boolean enabled;
     @ManyToOne
     private Role role;
+    @ManyToOne
+    private Commune commune;
 
     public Long getId() {
         return id;
@@ -54,5 +56,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Commune getCommune() {
+        return commune;
+    }
+
+    public void setCommune(Commune commune) {
+        this.commune = commune;
     }
 }

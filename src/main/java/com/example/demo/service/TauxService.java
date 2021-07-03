@@ -27,7 +27,7 @@ public class TauxService {
     //Ajouter un taux
     public Result save(Taux taux) {
         Result result = new Result("TauxInput",taux);
-        if (findByCategoryId(taux.getCategory().getId())==null) {
+        if (findByCategoryId(taux.getCategory().getId())!=null) {
             result.addError(-1,"taux n'exit pas");
         }
         if (taux.getSrfaceMax()==null){
@@ -49,7 +49,7 @@ public class TauxService {
         return result;
     }
     //modifier un taux
-    public Result updateTaux(Long id,Taux tauxMod){
+   /* public Result updateTaux(Long id,Taux tauxMod){
         Result result = new Result("TauxUpdate",id);
         Taux taux = tauxDao.findById(id).get();
         if (taux == null){
@@ -78,7 +78,7 @@ public class TauxService {
             result.addInfo(1,"taux supprimer");
         }
         return result;
-    }
+    }*/
 
     @Transactional
     public Integer deleteByCategory_Libelle(String libelle){
@@ -90,6 +90,8 @@ public class TauxService {
         return tauxDao.findById(id).map(taux -> {
             taux.setPrix(nouveauTaux.getPrix());
             taux.setCategory(nouveauTaux.getCategory());
+            taux.setSurfaceMin(nouveauTaux.getSurfaceMin());
+            taux.setSrfaceMax(nouveauTaux.getSrfaceMax());
             return tauxDao.save(taux);
         }).orElseGet(()->{
            nouveauTaux.setId(id);

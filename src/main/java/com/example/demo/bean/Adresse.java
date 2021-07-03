@@ -7,7 +7,6 @@ public class Adresse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String ref;
     private String numLot;
     @ManyToOne
     private Quartier quartier;
@@ -36,11 +35,5 @@ public class Adresse {
         this.quartier = quartier;
     }
 
-    public String getRef() {
-        return ref;
-    }
 
-    public void setRef(String ref) {
-        this.ref = ref;
-    }
 }
