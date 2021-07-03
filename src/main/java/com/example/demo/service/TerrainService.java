@@ -3,20 +3,15 @@ package com.example.demo.service;
 import com.example.demo.bean.TaxeTNB;
 import com.example.demo.bean.Terrain;
 import com.example.demo.dao.TerrainDao;
-import com.example.demo.vo.TaxeVo;
 import com.example.demo.vo.TerrainVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Year;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 
 
@@ -26,16 +21,12 @@ public class TerrainService {
     private TerrainDao terrainDao;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private TaxeTNBService taxeTNBService;
+    @Autowired
+    private TauxService tauxService;
 
-    @Transactional
-    public Integer save(Terrain terrain) {
-        if (findByReference(terrain.getReference()) != null) {
-            return -1;
-        } else {
-            terrainDao.save(terrain);
-            return 1;
-        }
-    }
+    TaxeTNB taxe = new TaxeTNB();
 
     public Terrain findByReference(String reference) {
         return terrainDao.findByReference(reference);
@@ -120,5 +111,116 @@ public class TerrainService {
         return res;
     }
 
+    @Transactional
+    public Integer save(Terrain terrain) {
+        if (findByReference(terrain.getReference()) != null) {
+            return -1;
+        } else {
+            terrainDao.save(terrain);
+            return 1;
+        }
+    }
+
+    public void ajouterTaxesAnnees(){
+        LocalDate date = LocalDate.now();
+        List<Terrain> allTerrain = this.findAll();
+        for (Terrain terrain : allTerrain) {
+            if(!terrain.getRedevable().getTypeRedevable().getNomType().equals("Etat") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Collectivité locale") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Habous public") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Terres Guich") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Terre collective") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Agence de logement et d’équipement militaires") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Ligue nationale de lutte contre les maladies cardio-vasculaires") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Fondation Hassan II pour la lutte contre le cancer ") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Fondation Mohammed V pour la solidarité") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Fondation Cheikh Zaid Ibn Soltan") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Fondation Mohammed VI de promotion des oeuvres sociales de l’éducation formation") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Office national des oeuvres universitaires sociales et culturelles") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Université Al Akhawayne d’Ifrane") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Banque islamique de développement") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Banque africaine de développement") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Société financière internationale") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Agence Bayt Mal Al Quods Acharif") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Société nationale d’aménagement collectif") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Société Sala Al-Jadida ") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Agence pour la promotion et le développement économique et social des préfectures et provinces du Nord du Royaume") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Agence pour la promotion et le développement économique et social des Provinces du Sud du Royaume") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Agence pour la promotion et le développement économique et social de la préfecture et des provinces de la région Orientale du Royaume") ||
+                            !terrain.getRedevable().getTypeRedevable().getNomType().equals("Agence pour l’aménagement de la Vallée de Bou Regreg") ||
+                            !terrain.getRedevable().isPermisRCDGD() ||
+                            !terrain.getRedevable().isPromoteurImmobilier()){
+                        if(terrain.getSurface() <= 30){
+                            LocalDateTime present = LocalDateTime.now();
+                            int anneeDatechat = terrain.getDateAchat().getYear()+1900;
+                            int condition = anneeDatechat+3;
+                            System.out.println("this is condition year :" + condition);
+                            if(present.getYear() == condition) {
+                                taxeTNBService.save(nouveauTaxeTNB(terrain));
+                            }else{
+                                int nbrAnneesTaxes = (present.getYear() - anneeDatechat+3);
+                                if(nbrAnneesTaxes > 0){
+                                    for(int i = anneeDatechat+3;i<=present.getYear();i++){
+                                        TaxeTNB taxe = nouveauTaxeTNB(terrain);
+                                        taxe.setAnnee((long) i);
+                                        taxeTNBService.save(taxe);
+                                    }
+                                }
+                            }
+                        }else if(terrain.getSurface() > 30 && terrain.getSurface() <=100){
+                            LocalDateTime present = LocalDateTime.now();
+                            int anneeDatechat = terrain.getDateAchat().getYear()+1900;
+                            int condition = anneeDatechat+5;
+                            if(present.getYear() == condition) {
+                                taxeTNBService.save(nouveauTaxeTNB(terrain));
+                            }else{
+                                int nbrAnneesTaxes = (present.getYear() - anneeDatechat+5);
+                                if(nbrAnneesTaxes > 0){
+                                    for(int i = anneeDatechat+5;i<=present.getYear();i++){
+                                        TaxeTNB taxe = nouveauTaxeTNB(terrain);
+                                        taxe.setAnnee((long) i);
+                                        taxeTNBService.save(taxe);
+                                    }
+                                }
+                            }
+                        }else if(terrain.getSurface()>100) {
+                            LocalDateTime present = LocalDateTime.now();
+                            int anneeDatechat = terrain.getDateAchat().getYear()+1900;
+                            int condition = anneeDatechat+7;
+                            if(present.getYear() == condition) {
+                                taxeTNBService.save(nouveauTaxeTNB(terrain));
+                            }else{
+                                int nbrAnneesTaxes = (present.getYear() - anneeDatechat+5);
+                                if(nbrAnneesTaxes > 0){
+                                    for(int i = anneeDatechat+5;i<=present.getYear();i++){
+                                        TaxeTNB taxe = nouveauTaxeTNB(terrain);
+                                        taxe.setAnnee((long) i);
+                                        taxeTNBService.save(taxe);
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+
+    public TaxeTNB nouveauTaxeTNB(Terrain terrain){
+        LocalDate date = LocalDate.now();
+
+        taxe.reset();
+
+        Long annee = (long) date.getYear();
+
+        taxe.setAnnee(annee);
+        taxe.setTerrain(terrain);
+        taxe.setRedevable(terrain.getRedevable());
+        taxe.setTaux(tauxService.findByCategoryId(terrain.getCategory().getId()));
+        taxe.setMontantDeBase(taxe.getTaux().getPrix() * terrain.getSurface());
+        taxe.setMontantDeTaxeTotale(taxe.getMontantDeBase());
+        taxe.setStatusPaiement(false);
+        System.out.println("Nouveau TaxeTNB ID est : "+taxe.getTerrain().getReference());
+        return taxe;
+    }
 
 }

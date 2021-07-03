@@ -17,8 +17,8 @@ public class TaxeTNBWs {
     public TaxeTNBService taxeTNBService;
 
     @PostMapping("/")
-    public Result save(@RequestBody TaxeTNB taxeTNB) {
-        return taxeTNBService.save(taxeTNB);
+    public void save(@RequestBody TaxeTNB taxeTNB) {
+        taxeTNBService.save(taxeTNB);
     }
 
     @GetMapping("/")
@@ -34,11 +34,11 @@ public class TaxeTNBWs {
         return taxeTNBService.findByTerrainReferenceAndAnnee(ref, annee);
     }
 
-    public Result simuler(TaxeTNB taxeTNB) {
+    /*public Result simuler(TaxeTNB taxeTNB) {
         return taxeTNBService.simuler(taxeTNB);
-    }
+    }*/
 
-    public TaxeTNB findByTerrainId(Long id) {
+    public List<TaxeTNB> findByTerrainId(Long id) {
         return taxeTNBService.findByTerrainId(id);
     }
 

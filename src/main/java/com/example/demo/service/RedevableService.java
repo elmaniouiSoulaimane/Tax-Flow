@@ -44,6 +44,8 @@ public class RedevableService {
             result.setAdresse(nouveauRedevable.getAdresse());
             result.setNomCommercial(nouveauRedevable.getNomCommercial());
             result.setTypeRedevable(nouveauRedevable.getTypeRedevable());
+            result.setPermisRCDGD(nouveauRedevable.isPermisRCDGD());
+            result.setPromoteurImmobilier(nouveauRedevable.isPromoteurImmobilier());
             return redevableDao.save(result);
         }).orElseGet(() ->{
            nouveauRedevable.setId(id);

@@ -23,7 +23,7 @@ public class PenaliteMensuelle extends TimerTask {
     @Autowired
     private PenaliteService penaliteService;
     public void run(){
-        LocalDate date = LocalDate.now();
+        /*LocalDate date = LocalDate.now();
         List<Terrain> allTerrain;
         allTerrain = terrainService.findAll();
         for (Terrain terrain : allTerrain) {
@@ -32,13 +32,13 @@ public class PenaliteMensuelle extends TimerTask {
                     penaliteService.update(terrain.getTaxeTNB().getPenalite(), terrain.getTaxeTNB().getPenalite().getId());
                 }
             }
-        }
+        }*/
     }
 
     public static void main(String[] args){
-        LocalDateTime unMoisApres = LocalDateTime.now().plusMonths(1);
+        /*LocalDateTime unMoisApres = LocalDateTime.now().plusMonths(1);
         Date unMoisApresCommeDate = Date.from(unMoisApres.atZone(ZoneId.systemDefault()).toInstant());
         int period =2592* 1000000;
-        new Timer().schedule(new PenaliteMensuelle(), unMoisApresCommeDate, period);
+        new Timer().schedule(new PenaliteMensuelle(), unMoisApresCommeDate, period);*/
     }
 }

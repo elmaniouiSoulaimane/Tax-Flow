@@ -55,12 +55,13 @@ public class Redevable {
         this.typeRedevable = typeRedevable;
     }
 
-    public boolean isPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures() {
+
+    public boolean isPermisRCDGD() {
         return permisRCDGD;
     }
 
-    public void setPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures(boolean permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures) {
-        this.permisRCDGD  = permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures;
+    public void setPermisRCDGD(boolean permisRCDGD) {
+        this.permisRCDGD = permisRCDGD;
     }
 
     public boolean isPromoteurImmobilier() {
