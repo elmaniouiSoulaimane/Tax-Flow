@@ -40,4 +40,9 @@ public class TerrainWs {
         return terrainService.update(nouveauTerrain,id);
     }
 
+    @PostMapping("/nouveau-taxe-annuelle")
+    public void ajouterTaxesAnnees(){
+        new Thread(() -> terrainService.ajouterTaxesAnnees()).start();
+    }
+
 }

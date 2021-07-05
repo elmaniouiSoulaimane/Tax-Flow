@@ -1,11 +1,5 @@
 package com.example.demo.vo;
 
-import com.example.demo.bean.Redevable;
-import com.example.demo.bean.Taux;
-import com.example.demo.bean.Terrain;
-
-import javax.persistence.*;
-
 
 public class TaxeVo {
 

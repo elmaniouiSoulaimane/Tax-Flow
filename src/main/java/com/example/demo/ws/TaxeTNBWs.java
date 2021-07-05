@@ -12,16 +12,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("boisson/taxe")
+@CrossOrigin("http://localhost:4200")
 public class TaxeTNBWs {
     @Autowired
     public TaxeTNBService taxeTNBService;
 
     @PostMapping("/")
-    public Result save(@RequestBody TaxeTNB taxeTNB) {
-        return taxeTNBService.save(taxeTNB);
+    public void save(@RequestBody TaxeTNB taxeTNB) {
+        taxeTNBService.save(taxeTNB);
     }
 
-    @GetMapping("/")
+    @GetMapping("/ListDesTaxTnb")
     public List<TaxeTNB> findAll() {
         return taxeTNBService.findAll();
     }
@@ -29,16 +30,16 @@ public class TaxeTNBWs {
     @PostMapping("/criterea")
     public List<TaxeTNB> findByCriterea(@RequestBody TaxeVo taxeVo){ return taxeTNBService.findByCriterea(taxeVo);}
 
-    @GetMapping("/terrain/ref/{ref}/annee/{annee}")
+    @GetMapping("/RechercherTaxTnbByRefAn/{ref}/{annee}")
     public TaxeTNB findByTerrainReferenceAndAnnee(@PathVariable String ref,@PathVariable Long annee) {
         return taxeTNBService.findByTerrainReferenceAndAnnee(ref, annee);
     }
 
-    public Result simuler(TaxeTNB taxeTNB) {
+    /*public Result simuler(TaxeTNB taxeTNB) {
         return taxeTNBService.simuler(taxeTNB);
-    }
+    }*/
 
-    public TaxeTNB findByTerrainId(Long id) {
+    public List<TaxeTNB> findByTerrainId(Long id) {
         return taxeTNBService.findByTerrainId(id);
     }
 

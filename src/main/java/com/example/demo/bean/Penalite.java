@@ -9,10 +9,37 @@ public class Penalite {
     private Long id;
     @OneToOne
     private TaxeTNB taxeTNB;
-    private Double tauxRetardPaiementTaxeTNB;
+
     private Double montant;
     private Double majoration;
-    private Double fractionDeMoisSupplementaire;
+    private Double fractionDeMoisSupplementaire = 0.0;
+    private Double tauxRetardPaiementTaxeTNB;
+    private double tauxRetardDeclaration;
+
+
+    public Double getTauxRetardPaiementTaxeTNB() {
+        return tauxRetardPaiementTaxeTNB;
+    }
+
+    public void setTauxRetardPaiementTaxeTNB(Double tauxRetardPaiementTaxeTNB) {
+        this.tauxRetardPaiementTaxeTNB = tauxRetardPaiementTaxeTNB;
+    }
+
+    public Double getMontant() {
+        return montant;
+    }
+
+    public void setMontant(Double montant) {
+        this.montant = montant;
+    }
+
+    public Double getMajoration() {
+        return majoration;
+    }
+
+    public void setMajoration(Double majoration) {
+        this.majoration = majoration;
+    }
 
     public Long getId() {
         return id;
@@ -29,36 +56,27 @@ public class Penalite {
     public void setTaxeTNB(TaxeTNB taxeTNB) {
         this.taxeTNB = taxeTNB;
     }
-    public Double getTauxRetardPaiementTaxeTNB() {
-        return tauxRetardPaiementTaxeTNB;
-    }
 
-    public Double getMontant() {
-        return montant;
-    }
-
-    public Double getMajoration() {
-        return majoration;
-    }
 
     public Double getFractionDeMoisSupplementaire() {
-        return fractionDeMoisSupplementaire;
+        return this.fractionDeMoisSupplementaire;
     }
 
     public void setFractionDeMoisSupplementaire(Double fractionDeMoisSupplementaire) {
         this.fractionDeMoisSupplementaire = fractionDeMoisSupplementaire;
     }
 
-    public void setTauxRetardPaiementTaxeTNB() {
-        this.tauxRetardPaiementTaxeTNB = this.getMontant() + this.getMajoration() + this.getFractionDeMoisSupplementaire();
+    public double getTauxRetardDeclaration() {
+        return tauxRetardDeclaration;
     }
 
-    public void setMontant() {
-        this.montant = this.taxeTNB.getMontantDeBase()* (10/100);
+    public void setTauxRetardDeclaration(double tauxRetardDeclaration) {
+        this.tauxRetardDeclaration = tauxRetardDeclaration;
     }
 
-    public void setMajoration() {
-        this.majoration = this.taxeTNB.getMontantDeBase() * (5/100);
+    public void reset(){
+        this.setId(null);
+        this.setFractionDeMoisSupplementaire(0.0);
+        this.setTaxeTNB(null);
     }
-
 }

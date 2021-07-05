@@ -54,46 +54,7 @@ public class Redevable {
     public void setTypeRedevable(TypeRedevable typeRedevable) {
         this.typeRedevable = typeRedevable;
     }
-/*
-    public boolean isPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures() {
-        return permisRCDGD;
-    }
 
-    public void setPermisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures(boolean permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures) {
-        this.permisRCDGD  = permisDeRechercheOuDuneConcessionDexploitationDesGisementsDhydrocarbures;
-    }
-
-    public boolean isPromoteurImmobilier() {
-        return promoteurImmobilier;
-    }
-
-    public void setPromoteurImmobilier(boolean promoteurImmobilier) {
-        this.promoteurImmobilier = promoteurImmobilier;
-    }
-
-    public boolean isPermisRCDGD() {
-        return permisRCDGD;
-    }
-
-    public void setPermisRCDGD(boolean permisRCDGD) {
-        this.permisRCDGD = permisRCDGD;
-    }*/
-    /*
-    public boolean isPermisRCDGD() {
-        return permisRCDGD;
-    }
-
-    public void setPermisRCDGD(boolean permisRCDGD) {
-        this.permisRCDGD = permisRCDGD;
-    }
-
-    public boolean isPromoteurImmobilier() {
-        return promoteurImmobilier;
-    }
-
-    public void setPromoteurImmobilier(boolean promoteurImmobilier) {
-        this.promoteurImmobilier = promoteurImmobilier;
-    }*/
 
     public boolean isPermisRCDGD() {
         return permisRCDGD;

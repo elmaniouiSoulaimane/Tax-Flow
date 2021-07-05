@@ -2,8 +2,8 @@ package com.example.demo.ws;
 
 import com.example.demo.bean.Taux;
 import com.example.demo.service.TauxService;
-import com.example.demo.service.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +23,10 @@ public class TauxWs {
         return tauxService.findAll();
     }
     @PostMapping("/AjouterTaux")
-    public Result save(@RequestBody Taux taux) {
+    public int save(@RequestBody Taux taux) {
         return tauxService.save(taux);
     }
+    @Transactional
     @DeleteMapping("SupprimerTauxByCategorieNom/{libelle}")
     public Integer deleteByCategory_Libelle(@PathVariable String libelle){
         return tauxService.deleteByCategory_Libelle(libelle);
@@ -35,8 +36,7 @@ public class TauxWs {
         return tauxService.update(nouveauTaux,id);
     }
     @GetMapping("/RechercheById/{id}")
-    public Taux findByID(@PathVariable Long id) {
-        return tauxService.findByID(id);
+    public Taux findTauxById(@PathVariable Long id) {
+        return tauxService.findTauxById(id);
     }
-
 }

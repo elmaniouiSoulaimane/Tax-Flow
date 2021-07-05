@@ -1,16 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.bean.Redevable;
-import com.example.demo.bean.Taux;
+import com.example.demo.bean.Penalite;
 import com.example.demo.bean.TaxeTNB;
-import com.example.demo.bean.Terrain;
 import com.example.demo.dao.TaxeTNBDao;
-import com.example.demo.service.util.Result;
 import com.example.demo.vo.TaxeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,22 +20,23 @@ public class TaxeTNBService {
     @Autowired
     public TaxeTNBDao taxeTNBDao;
     @Autowired
-    private RedevableService redevableService;
-    @Autowired
-    private TerrainService terrainService;
-    @Autowired
-    private TauxService tauxService;
-    @Autowired
     private EntityManager entityManager;
-    public Result save(TaxeTNB taxeTNB) {
+    @Autowired
+    private PenaliteService penaliteService;
+    LocalDateTime now = LocalDateTime.now();
+    Month moisCourant = now.getMonth();
+    Penalite penalite = new Penalite();
+
+
+    /*public Result save(TaxeTNB taxeTNB) {
         return save(taxeTNB,false);
-    }
+    }*/
 
-    public Result simuler(TaxeTNB taxeTNB) {
+    /*public Result simuler(TaxeTNB taxeTNB) {
         return save(taxeTNB,true);
-    }
+    }*/
 
-    private Result save(TaxeTNB taxeTNB,boolean simuler) {
+    /*private Result save(TaxeTNB taxeTNB,boolean simuler) {
         Result result= new Result("taxeTNBInput",taxeTNB);
         Terrain terrain = terrainService.findByReference(taxeTNB.getTerrain().getReference());
         Redevable redevable= redevableService.findByNomCommmercial(terrain.getRedevable().getNomCommercial());
@@ -57,15 +58,25 @@ public class TaxeTNBService {
             taxeTNB.setRedevable(redevable);
             taxeTNB.setTerrain(terrain);
             taxeTNB.setTaux(taux);
-            taxeTNB.setMontantDeBase(taxeTNB.getTaux().getPrix()*taxeTNB.getTerrain().getSurface());
+            taxeTNB.setMontantDeBase(taxeTNB.getTaux().getPrix() * terrain.getSurface());
             if (simuler == false)
                 taxeTNBDao.save(taxeTNB);
             result.addInfo(1,"Taxe Saved");
         }
         return result;
+    }*/
+
+    @Transactional
+    public Integer save(TaxeTNB taxeTNB){
+        if(findByTerrainReferenceAndAnnee(taxeTNB.getTerrain().getReference(),taxeTNB.getAnnee()) != null){
+            return -1;
+        }else{
+            taxeTNBDao.save(taxeTNB);
+            return 1;
+        }
     }
 
-    public TaxeTNB findByTerrainId(Long id) {
+    public List<TaxeTNB> findByTerrainId(Long id) {
         return taxeTNBDao.findByTerrainId(id);
     }
     public TaxeTNB findByAnnee(Long annee){ return taxeTNBDao.findByAnnee(annee);}
@@ -80,7 +91,7 @@ public class TaxeTNBService {
     }
 
 
-    public List<TaxeTNB> findByCriterea(TaxeVo taxeVo){
+    public List findByCriterea(TaxeVo taxeVo){
         String query="Select t from TaxeTNB t where 1=1";
         if(taxeVo.getRedevable()!=null){
             query+=" And t.redevable.ref='"+taxeVo.getRedevable()+"'";
@@ -106,6 +117,79 @@ public class TaxeTNBService {
         return res;
     }
 
+    public void calculFractionDeMoisSupplementaireParAnnee(TaxeTNB taxeTNB, Penalite penalite){
+        int month = now.getMonthValue();
+        for (int currentMonth = month; currentMonth <= 12; currentMonth++) {
+            if(!taxeTNB.isStatusPaiement()){
+                Double fractionDeMoisSupplementaire = (taxeTNB.getMontantDeBase() * (0.50/100)) + penalite.getFractionDeMoisSupplementaire();
+                penalite.setFractionDeMoisSupplementaire(fractionDeMoisSupplementaire);
+            }
+        }
+    }
 
 
+
+    public void ajouterPenalites(){
+        List<TaxeTNB> allTaxes = this.findAll();
+        for(TaxeTNB taxeTNB : allTaxes){
+            if(!taxeTNB.isStatusPaiement()){
+                int anneeCourant = now.getYear();
+                int anneeTaxe = Math.toIntExact(taxeTNB.getAnnee());
+                if(anneeCourant==anneeTaxe){
+                    Penalite nouveauPenalite = nouveauPenalite(taxeTNB);
+                   int result = penaliteService.save(nouveauPenalite);
+                   System.out.println(result);
+                   if(result == 1){
+                       double montantDeTaxeTotal = taxeTNB.getMontantDeBase() + nouveauPenalite.getMontant() + nouveauPenalite.getTauxRetardDeclaration();
+                       taxeTNB.setMontantDeTaxeTotale(montantDeTaxeTotal);
+                       this.update(taxeTNB, taxeTNB.getId());
+                   }
+                }else if(anneeTaxe<=anneeCourant){
+                    calculFractionDeMoisSupplementaireParAnnee(taxeTNB,nouveauPenalite(taxeTNB));
+                }
+            }
+        }
+    }
+
+    public Penalite nouveauPenalite(TaxeTNB taxeTNB){
+        penalite.reset();
+        penalite.setTaxeTNB(taxeTNB);
+        double majoration = (( taxeTNB.getMontantDeBase() * 5)/100);
+        penalite.setMajoration(majoration);
+        double montantDeBase = (( taxeTNB.getMontantDeBase() * 10)/100);
+        penalite.setMontant(montantDeBase);
+        if(moisCourant!=Month.JANUARY && moisCourant!=Month.FEBRUARY && moisCourant!=Month.MARCH){
+            Penalite p = penaliteService.findByTaxeTNBTerrainReference(taxeTNB.getTerrain().getReference());
+            if(p != null){ //Confirmation du creation d'une ancien penalite pour calculer la fraction
+                penalite.setFractionDeMoisSupplementaire((taxeTNB.getMontantDeBase() * (0.50/100) + p.getFractionDeMoisSupplementaire()));
+            }else{
+                penalite.setFractionDeMoisSupplementaire((taxeTNB.getMontantDeBase() * (0.50/100)));
+            }
+        }
+        penalite.setTauxRetardPaiementTaxeTNB((penalite.getMontant() + penalite.getMajoration() + penalite.getFractionDeMoisSupplementaire()));
+
+        if(taxeTNB.getTerrain().getDateAchat().getYear()!= taxeTNB.getTerrain().getDateDeclaration().getYear()){
+            int differenceAnnees =  taxeTNB.getTerrain().getDateDeclaration().getYear() - taxeTNB.getTerrain().getDateAchat().getYear();
+            penalite.setTauxRetardDeclaration(differenceAnnees * penalite.getMontant());
+        }else{
+            penalite.setTauxRetardDeclaration(0.0);
+        }
+        return penalite;
+    }
+
+    public TaxeTNB update(TaxeTNB nouveautaxeTNB, Long id){
+        return taxeTNBDao.findById(id).map(result ->{
+            result.setAnnee(nouveautaxeTNB.getAnnee());
+            result.setTerrain(nouveautaxeTNB.getTerrain());
+            result.setRedevable(nouveautaxeTNB.getRedevable());
+            result.setTaux(nouveautaxeTNB.getTaux());
+            result.setMontantDeBase(nouveautaxeTNB.getMontantDeBase());
+            result.setMontantDeTaxeTotale(nouveautaxeTNB.getMontantDeTaxeTotale());
+            result.setStatusPaiement(nouveautaxeTNB.isStatusPaiement());
+            return taxeTNBDao.save(result);
+        }).orElseGet(()->{
+            nouveautaxeTNB.setId(id);
+           return taxeTNBDao.save(nouveautaxeTNB);
+        });
+    }
 }
