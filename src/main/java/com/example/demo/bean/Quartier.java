@@ -3,14 +3,14 @@ package com.example.demo.bean;
 import javax.persistence.*;
 
 @Entity
-public class Rue {
+public class Quartier {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
     private String code;
+    private String name;
     @ManyToOne
-    private Ville ville;
+    private Rue rue;
 
     public Long getId() {
         return id;
@@ -28,12 +28,12 @@ public class Rue {
         this.name = name;
     }
 
-    public Ville getVille() {
-        return ville;
+    public Rue getRue() {
+        return rue;
     }
 
-    public void setVille(Ville ville) {
-        this.ville = ville;
+    public void setRue(Rue rue) {
+        this.rue = rue;
     }
 
     public String getCode() {

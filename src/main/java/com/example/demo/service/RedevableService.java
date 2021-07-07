@@ -19,6 +19,11 @@ public class RedevableService {
     public Redevable findByNomCommmercial(String nomCommercial) {
         return redevableDao.findByNomCommercial(nomCommercial);
     }
+
+    public Redevable findByRef(String ref) {
+        return redevableDao.findByRef(ref);
+    }
+
     @Transactional
     public int deleteByNomCommercial(String nomCommercial) {
         return redevableDao.deleteByNomCommercial(nomCommercial);
@@ -29,7 +34,9 @@ public class RedevableService {
     }
 
     public int save(Redevable redevable) {
-        if (findByNomCommmercial(redevable.getNomCommercial())!=null){
+        if (//findByNomCommmercial(redevable.getNomCommercial())!=null
+            findByRef(redevable.getRef())!=null
+         ){
             return -1;
         }else {
             redevableDao.save(redevable);
@@ -68,5 +75,12 @@ public class RedevableService {
         return entityManager.createQuery(query).getResultList();
     }
 
+    public Redevable findByNomCommercial(String nomCommercial) {
+        return redevableDao.findByNomCommercial(nomCommercial);
+    }
+
+    public int deleteByRef(String ref) {
+        return redevableDao.deleteByRef(ref);
+    }
 }
 

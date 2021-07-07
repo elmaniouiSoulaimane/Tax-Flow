@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RedevableDao extends JpaRepository<Redevable,Long> {
     Redevable findByNomCommercial(String nomCommercial);
+    Redevable findByRef(String ref);
     int deleteByNomCommercial(String nomCommercial);
+    int deleteByRef(String ref);
 }

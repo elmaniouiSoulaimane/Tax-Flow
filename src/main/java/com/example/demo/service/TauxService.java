@@ -12,7 +12,9 @@ import java.util.List;
 public class TauxService {
     @Autowired
     private TauxDao tauxDao;
-
+    public  Taux findTauxById(Long id){
+        return tauxDao.findById(id).get();
+    }
     public Taux findByCategoryId(Long id) {
         return tauxDao.findByCategoryId(id);
     }

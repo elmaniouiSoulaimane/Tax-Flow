@@ -3,37 +3,40 @@ package com.example.demo.ws;
 import com.example.demo.bean.TypeRedevable;
 import com.example.demo.service.TypeRedevableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("redevable/type-redevable")
+@RequestMapping("TaxFlow/type-redevable")
+@CrossOrigin("http://localhost:4200")
 public class TypeRedevableWs {
     @Autowired
     TypeRedevableService typeRedevableService;
 
-    @GetMapping("/nomRedevable/{nomRedevable}")
+    @GetMapping("/RechercheTypeRedevable/{nomRedevable}")
     public TypeRedevable findByNomType(@PathVariable String nomRedevable){
         return typeRedevableService.findByNomType(nomRedevable);
     }
 
-    @PostMapping("/")
+    @PostMapping("/AjouterTypeRedevable")
     public int save(@RequestBody TypeRedevable typeRedevable){
         return typeRedevableService.save(typeRedevable);
     }
 
-    @GetMapping("/")
+    @GetMapping("/ListTypeRedevables")
     public List<TypeRedevable> findAll(){
         return typeRedevableService.findAll();
     }
 
-    @DeleteMapping("/nom-type-redevable/{nomType}")
+    @Transactional
+    @DeleteMapping("SupprimerTypeRedevable/{nomType}")
     public Integer deleteByNomType(@PathVariable String nomType){
         return typeRedevableService.deleteByNomType(nomType);
     }
 
-    @PutMapping("/type_redevable/{id}")
+    @PutMapping("ModifierTypeRedevable/{id}")
     public TypeRedevable update(@RequestBody TypeRedevable nouveauTypeRedevable,@PathVariable Long id){
         return typeRedevableService.update(nouveauTypeRedevable,id);
     }
